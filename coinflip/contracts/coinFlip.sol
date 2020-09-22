@@ -4,59 +4,63 @@ pragma solidity 0.5.8;
 contract coinFlip is Ownable{
 
 uint public flipBalance = 0;
-uint public contractBalance = 100000000000000000000;
+uint public contractBalance = 0;
 uint public payout;
-string public headsOrTails;
+uint public totalInvestment;
 
-function random() private view returns (uint) {
+
+
+function random() private view returns(uint) {
   return now % 2;
   }
 
-function flip() public view returns (string memory) {
-    uint randomResult = random();
-    string memory coinResult;
-
-  if(randomResult == 0){
-    coinResult = "heads";
-  }
-
-  else if (randomResult == 1){
-    coinResult = "tails";
-  }
-  return coinResult;
-  }
-
-  function flipAndPay(string memory guess) public payable returns(uint, string memory){
-        require (msg.value >= 1);
+  function flipAndPay(uint guess) public payable returns(uint, string memory){
+        require (msg.value >= 1, "Minimum bet is .000000000000000001 ETH");
         flipBalance = 0;
         flipBalance += msg.value;
         contractBalance += msg.value;
         address payable player = msg.sender;
+        uint flip;
+        string memory flip_result;
+
+
 
         require(contractBalance >= payout, "Sorry, we don't have that amount");
 
-        headsOrTails = flip();
+        flip = random();
+        flip_result = getResult(flip);
 
-        if(keccak256(abi.encodePacked(headsOrTails)) == keccak256(abi.encodePacked(guess))){
+        if(flip == guess){
             payout = flipBalance * 2;
             player.transfer(payout);
             contractBalance -= payout;
-            return(payout, headsOrTails);
+            return(payout, flip_result);
 
         }
 
         else{
             payout = -flipBalance;
-            return(payout, headsOrTails);
+            return(payout, flip_result);
         }
 
   }
 
+  function getResult(uint flip) private pure returns(string memory){
+    string memory result;
+    if(flip == 0){
+      result = "heads";
+    }
+    else{
+      result = "tails";
+    }
+    return result;
+  }
+
 
      function withdrawProfit() public onlyOwner returns(uint) {
-       require(contractBalance > 100000000000000000000);
-       uint toTransfer = contractBalance - 100000000000000000000;
-       contractBalance = 100000000000000000000;
+       require(contractBalance > totalInvestment);
+       uint toTransfer = contractBalance - totalInvestment;
+       contractBalance = totalInvestment;
        msg.sender.transfer(toTransfer);
        return toTransfer;
 }
@@ -66,6 +70,15 @@ function flip() public view returns (string memory) {
         contractBalance = 0;
         msg.sender.transfer(toTransfer);
 
+    }
+
+    function getContractBalance () public view returns (uint){
+      return address(this).balance;
+  }
+
+    function fundContract() public payable{
+      totalInvestment += msg.value;
+      contractBalance += msg.value;
     }
 
 }

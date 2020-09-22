@@ -10,10 +10,26 @@ $(document).ready(function() {
 });
 
 function sendBet(){
-var guess = $("#sides").val();
+var playerChoice = $("#sides").val();
+require(playerChoice == "heads" || playerChoice == "tails", "Choice must be heads or tails");
+
+var guess;
+if(playerChoice == "heads"){
+  guess = 0;
+}
+else{
+  guess = 1;
+}
+
 var bet = $("#bet_amount").val();
 
-contractInstance.methods.flipAndPay(guess).send(bet).then(function(res){
+var config = {
+  value: web3.utils.toWei(bet, "ether")
+}
+
+  };
+
+contractInstance.methods.flipAndPay(guess).send(config).then(function(res){
 
   .on("transactionHash", function(hash){
     console.log(hash);
