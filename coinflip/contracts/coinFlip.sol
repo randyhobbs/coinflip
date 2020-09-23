@@ -16,6 +16,7 @@ function random() private view returns(uint) {
 
   function flipAndPay(uint guess) public payable returns(uint, string memory){
         require (msg.value >= 1, "Minimum bet is .000000000000000001 ETH");
+        require(guess == 0 || guess == 1, "Choice must be heads or tails");
         flipBalance = 0;
         flipBalance += msg.value;
         contractBalance += msg.value;

@@ -3,15 +3,15 @@ var contractInstance;
 
 $(document).ready(function() {
     window.ethereum.enable().then(function(accounts){
-      contractInstance = new web3.eth.Contract(abi, "0xC67B373244bD2327e8eE54e750E4CfB9c80a1894", {from: accounts[0]});
+      contractInstance = new web3.eth.Contract(abi, "0x49eFe51b8C23760e50ea389c5b2081a9328bE12b", {from: accounts[0]});
       console.log(contractInstance);
 });
   $("#flip_button").click(sendBet)
 });
 
 function sendBet(){
+var bet = $("#bet_amount").val();
 var playerChoice = $("#sides").val();
-require(playerChoice == "heads" || playerChoice == "tails", "Choice must be heads or tails");
 
 var guess;
 if(playerChoice == "heads"){
@@ -21,17 +21,15 @@ else{
   guess = 1;
 }
 
-var bet = $("#bet_amount").val();
-
 var config = {
   value: web3.utils.toWei(bet, "ether")
 }
 
   };
 
-contractInstance.methods.flipAndPay(guess).send(config).then(function(res){
+contractInstance.methods.flipAndPay(guess).send(config)
 
-  .on("transactionHash", function(hash){
+.on("transactionHash", function(hash){
     console.log(hash);
   })
   .on("confirmation", function(confirmationNr){
@@ -41,9 +39,10 @@ contractInstance.methods.flipAndPay(guess).send(config).then(function(res){
     console.log(receipt);
     alert("Done");
   })
-      $("#result_output").text(res.headsOrTails);
+
+.then(function(res){
+
+      $("#result_output").text(res.flip_result);
       $("#payout_output").text(res.payout);
 
-})
-
-}
+});
