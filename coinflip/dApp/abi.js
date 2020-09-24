@@ -2,6 +2,20 @@ var abi = [
   {
     "constant": true,
     "inputs": [],
+    "name": "totalInvestment",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
     "name": "flipBalance",
     "outputs": [
       {
@@ -56,39 +70,28 @@ var abi = [
     "type": "function"
   },
   {
-    "constant": true,
-    "inputs": [],
-    "name": "headsOrTails",
-    "outputs": [
+    "anonymous": false,
+    "inputs": [
       {
-        "name": "",
+        "indexed": false,
+        "name": "payout",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "flip_result",
         "type": "string"
       }
     ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "flip",
-    "outputs": [
-      {
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
+    "name": "flipResult",
+    "type": "event"
   },
   {
     "constant": false,
     "inputs": [
       {
         "name": "guess",
-        "type": "string"
+        "type": "uint256"
       }
     ],
     "name": "flipAndPay",
@@ -127,6 +130,29 @@ var abi = [
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getContractBalance",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "fundContract",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
     "type": "function"
   }
 ]

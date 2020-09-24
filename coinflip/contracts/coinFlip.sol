@@ -8,6 +8,7 @@ uint public contractBalance = 0;
 uint public payout;
 uint public totalInvestment;
 
+event flipResult(uint payout, string flip_result);
 
 
 function random() private view returns(uint) {
@@ -35,13 +36,13 @@ function random() private view returns(uint) {
             payout = flipBalance * 2;
             player.transfer(payout);
             contractBalance -= payout;
-            return(payout, flip_result);
+            emit flipResult(payout, flip_result);
 
         }
 
         else{
             payout = -flipBalance;
-            return(payout, flip_result);
+            emit flipResult(payout, flip_result);
         }
 
   }
