@@ -38,10 +38,10 @@ contractInstance.methods.flipAndPay(guess).send(config)
     console.log(confirmationNr);
   })
   .on("receipt", function(receipt){
+    console.log(receipt)})
+    .then(function(res){
     $("#result_output").text(res.flip_result);
     $("#payout_output").text(res.payout);
-    console.log(receipt);
-
   });
 
 }
