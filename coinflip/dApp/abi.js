@@ -74,12 +74,12 @@ var abi = [
     "inputs": [
       {
         "indexed": false,
-        "name": "payout",
+        "name": "",
         "type": "uint256"
       },
       {
         "indexed": false,
-        "name": "flip_result",
+        "name": "",
         "type": "string"
       }
     ],

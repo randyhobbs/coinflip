@@ -8,7 +8,7 @@ uint public contractBalance = 0;
 uint public payout;
 uint public totalInvestment;
 
-event flipResult(uint payout, string flip_result);
+event flipResult(uint, string);
 
 
 function random() private view returns(uint) {
